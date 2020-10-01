@@ -9,4 +9,14 @@ export function getContrastYIQ(hexcolor){
     const yiq = ((r*299)+(g*587)+(b*114))/1000;
     return yiq / 255;
 }
+
+export const dates = {
+    second: 1000,
+    minute: 60 * 1000,
+    hour: 60 * 60 * 1000,
+    day: 24 * 60 * 60 * 1000,
+    week: 7 * 24 * 60 * 60 * 1000,
+    month: 30 * 24 * 60 * 60 * 1000,
+    year: 365 * 24 * 60 * 60 * 1000,
+}
 /* eslint-enable */

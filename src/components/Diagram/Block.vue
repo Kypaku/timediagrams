@@ -1,5 +1,5 @@
 <template>
-    <v-btn class="block diagram-item" :style="style" :class="{ active: item.id === currentBlock.id }" @click="SET_CURRENT_BLOCK(item)">
+    <div class="block diagram-item" :style="style" :class="{ active: item.id === currentBlock.id }" @click="SET_CURRENT_BLOCK(item)">
         <v-btn  class="feed left" v-if="!isRenaming" text>
             <span>{{item.name || "_"}}</span>
             <span class="rename_button pointer" icon @click.stop="isRenaming = true">🖉</span>
@@ -11,7 +11,7 @@
                 <v-btn icon @click="del"><v-icon size="14">close</v-icon></v-btn>
             </v-layout>
         </div>
-    </v-btn>
+    </div>
 </template>
 
 <script lang='ts'>
