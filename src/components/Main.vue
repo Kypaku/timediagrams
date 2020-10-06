@@ -1,9 +1,11 @@
 <template>
-    <div class="main-page">
+    <div class="main-page mt-3">
         <v-container>
             <Navigation :items="diagrams"/>
-            <h3 class="mt-4">Diagram:</h3>
-            <Diagram/>
+            <div class="diagram-wrap" v-if="current.id">
+                <h3 class="mt-4">Diagram:</h3>
+                <Diagram/>
+            </div>
             <v-row class="footer" v-if="current.id">
                 <v-col class="add-layer">
                     <AddLayer/>

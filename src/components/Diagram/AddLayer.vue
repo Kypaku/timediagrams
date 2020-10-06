@@ -17,17 +17,19 @@
     import { Vue } from 'vue-property-decorator'
     import { formModes } from '@/types/Misc'
 
+    function defaultData() {
+        return {
+            name: '',
+            description: '',
+            id: '',
+        }
+    }
+
     export default Vue.extend({
         components: {
 
         },
-        data() {
-            return {
-                name: '',
-                description: '',
-                id: '',
-            }
-        },
+        data: defaultData,
         computed: {
             ...mapGetters(['current', 'currentLayer', 'addLayerMode']),
             isValidated(): boolean {
@@ -39,8 +41,7 @@
                 },
                 set(newVal: formModes) {
                     if (!newVal) {
-                        this.name = '';
-                        this.description = '';
+                        Object.assign(this.$data, defaultData())
                     }
                     this.SET_ADD_LAYER_MODE(newVal)
                 },
@@ -61,14 +62,15 @@
                 if (!this.mode) {
                     this.SET_CURRENT_LAYER(this.current.layers[this.current.layers.length - 1])
                 }
+                Object.assign(this.$data, defaultData())
 			},
         },
         watch: {
-            currentLayer(newVal, old) {
-                if (newVal.id) {
-                    this.name = newVal.name
-                    this.description = newVal.description
-                    this.id = newVal.id
+            addLayerMode(newVal, old) {
+                if (newVal) {
+                    this.name = this.currentLayer.name
+                    this.description = this.currentLayer.description
+                    this.id = this.currentLayer.id
                 }
             },
         },

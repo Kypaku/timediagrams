@@ -5,8 +5,9 @@
             <Timescale v-model="timescale"/>
         </div>
         <div class="diagram-body" v-if="current.id">
-            <div class="layers pt-7">
+            <div class="layers pt-7 pb-3">
                 <h3>Layers:</h3>
+                <div class="helper" v-show="!current.layers.length">Add new layer below ↓</div>
                 <div class="layer-wrap mt-3 flex-center" v-for="(layer, i) in current.layers" :key="layer.id">
                     <h5 class="mr-2">#{{i + 1}}</h5>
                     <Layer :item="layer" :time-interval="timescale"/>

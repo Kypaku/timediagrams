@@ -73,17 +73,11 @@
                 endScale: (this.end || this.value.end) as Date,
                 isDrag: false,
                 startDragPos: 0,
-                isCreated: false,
                 dates,
+                scaleWidth: 0,
             }
         },
         computed: {
-            scaleWidth(): number {
-                if (this.isCreated) {
-                    return this.$refs.scale_line && (this.$refs.scale_line as any).clientWidth
-                }
-                return 0
-            },
             currentScale(): Scales {
                 let i = 0
                 for (const date of Object.values(dates).slice(2)) {
@@ -210,7 +204,9 @@
             }
         },
         mounted() {
-            this.isCreated = true
+            this.$nextTick(() => {
+                this.scaleWidth = this.$refs.scale_line && (this.$refs.scale_line as any).clientWidth
+            })
         },
     })
 

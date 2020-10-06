@@ -6,8 +6,8 @@
         <v-card-text>
             <v-text-field v-model="name" label="Name"/>
             <v-textarea v-model="description" label="Description"/>
-            <!-- <v-btn>Load</v-btn> -->
-            <input type="file" @change="loadTextFromFile">
+            <h3>Or load from file:</h3>
+            <input type="file" class="mt-2" @change="loadTextFromFile">
         </v-card-text>
         <v-card-actions>
             <v-spacer></v-spacer>
@@ -17,26 +17,28 @@
 </template>
 
 <script lang='ts'>
-	import { mapMutations } from 'vuex'
+    import { mapMutations, mapGetters } from 'vuex'
     import { Vue } from 'vue-property-decorator'
     import { uuid } from '@/helpers'
+
+    function defaultData() {
+        return {
+            name: '',
+            description: '',
+            json: '',
+        }
+    }
 
     export default Vue.extend({
         components: {
 
         },
-        data() {
-            return {
-                name: '',
-                description: '',
-                json: '',
-            }
-        },
+        data: defaultData,
         computed: {
-
+            ...mapGetters(['diagrams']),
         },
 		methods: {
-            ...mapMutations(['ADD_DIAGRAM']),
+            ...mapMutations(['ADD_DIAGRAM', 'SET_CURRENT']),
             add() {
                 let data
                 if (this.json) {
@@ -47,7 +49,9 @@
                     data = { name: this.name, description: this.description, layers: [], id: uuid() }
                 }
                 this.ADD_DIAGRAM(data)
+                this.SET_CURRENT(this.diagrams[this.diagrams.length - 1])
                 this.$emit('close')
+                Object.assign(this.$data, defaultData())
             },
             loadTextFromFile(ev: any) {
                 const file = ev.target.files[0]

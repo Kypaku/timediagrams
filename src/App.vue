@@ -1,51 +1,62 @@
 <template>
     <v-app>
-        <v-app-bar
-        app
-        color="primary"
-        dark
-        >
-        KyDiagrams
+        <v-app-bar app color="primary" dark>
+            <router-link :to="`/`"><div class="logo-text">KyDiagrams</div></router-link>
+            <v-spacer/>
+            <router-link :to="`/about`" class="about">About</router-link>
         </v-app-bar>
         <v-main>
-            <router-view></router-view>
+            <router-view/>
         </v-main>
     </v-app>
 </template>
 
 <script lang="ts">
-import ls from 'local-storage'
-import { mapMutations, mapGetters } from 'vuex'
-import Vue from 'vue';
-import Diagram from './types/Diagram';
+    import ls from 'local-storage'
+    import { mapMutations, mapGetters } from 'vuex'
+    import Vue from 'vue'
+    import Diagram from './types/Diagram'
 
-export default Vue.extend({
-    name: 'App',
+    export default Vue.extend({
+        name: 'App',
+        components: {
 
-    components: {
+        },
+        data() {
+            return {
 
-    },
-
-    data: () => ({
-        text: 'none',
-    }),
-    computed: {
-        ...mapGetters(['diagrams']),
-    },
-	methods: {
-        ...mapMutations(['SET_DIAGRAMS', 'SET_CURRENT']),
-    },
-    created() {
-        const diagramsLs: any = ls('diagrams')
-        if (diagramsLs) {
-            this.SET_DIAGRAMS(diagramsLs)
-            const currentLs: any = ls('current')
-            const current = currentLs ? this.diagrams.find((el: Diagram) => el.id === currentLs.id) : this.diagrams[0]
-            this.SET_CURRENT(current)
-        }
-    },
-});
+            }
+        },
+        computed: {
+            ...mapGetters(['diagrams']),
+        },
+        methods: {
+            ...mapMutations(['SET_DIAGRAMS', 'SET_CURRENT']),
+        },
+        created() {
+            const diagramsLs: any = ls('diagrams')
+            if (diagramsLs) {
+                this.SET_DIAGRAMS(diagramsLs)
+                const currentLs: any = ls('current')
+                if (currentLs !== 'undefined') {
+                    const current = currentLs ? this.diagrams.find((el: Diagram) => el.id === currentLs.id) : this.diagrams[0]
+                    this.SET_CURRENT(current)
+                }
+            }
+        },
+    });
 </script>
+
+<style lang="scss" scoped>
+	.logo-text{
+		font-size: 22px;
+        color: white;
+	}
+	.about{
+		color: white;
+        text-decoration: none;
+	}
+</style>
 
 <style lang="scss">
     .left{
@@ -61,5 +72,9 @@ export default Vue.extend({
         display: flex;
         align-items: center;
     }
-
+	.helper{
+		font-size: 22px;
+        text-decoration: underline;
+        color: #1976d2;
+	}
 </style>

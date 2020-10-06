@@ -6,13 +6,11 @@
 
 <script>
     import Main from '../components/Main'
-// @ is an alias to /src
 
     export default {
         name: 'Home',
         components: {
             Main,
-
         },
     };
 </script>

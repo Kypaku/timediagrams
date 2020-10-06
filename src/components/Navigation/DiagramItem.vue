@@ -5,9 +5,9 @@
             <span class="rename_button pointer" icon @click.stop="isRenaming = true">🖉</span>
         </v-btn>
         <div v-else>
-            <v-layout row align-center>
+            <v-layout row align-center class="ml-2">
                 <v-text-field v-model="name" label="" required></v-text-field>
-                <v-btn icon @click="rename">✓</v-btn>
+                <v-btn icon @click="rename"><v-icon size="14">done</v-icon></v-btn>
                 <v-btn icon @click="del"><v-icon size="14">close</v-icon></v-btn>
             </v-layout>
         </div>
@@ -37,7 +37,7 @@
 
         },
         computed: {
-            ...mapGetters(['current']),
+            ...mapGetters(['current', 'diagrams']),
 
         },
 		methods: {
@@ -46,7 +46,7 @@
                 this.DEL_DIAGRAM(this.item.id)
                 this.isRenaming = false
                 if (this.current.id === this.item.id) {
-                    this.SET_CURRENT(this.item)
+                    this.SET_CURRENT(this.diagrams[0] || {})
                 }
             },
             rename(): void {
