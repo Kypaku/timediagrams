@@ -39,7 +39,7 @@ export default {
             state.currentLayer = current
         },
         SET_CURRENT_BLOCK: (state: any, current: Block) => {
-            state.currentBlock = current
+            state.currentBlock = current || {}
         },
         ADD_DIAGRAM: (state: any, diagram: Diagram) => {
             const defaultData = { name: 'NEW DIAGRAM', description: '', layers: [], id: uuid() } as any

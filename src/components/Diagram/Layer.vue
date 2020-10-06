@@ -1,5 +1,5 @@
 <template>
-    <div class="layer" :class="{ active: item.id === currentLayer.id }" @click="SET_CURRENT_LAYER(item)" ref="layer">
+    <div class="layer" :class="{ active: item.id === currentLayer.id }" @click="setCurrent" ref="layer">
         <div class="label" v-if="!isRenaming">
             <span>{{item.name || "_"}}</span>
             <span class="rename_button pointer" icon @click.stop="isRenaming = true">🖉</span>
@@ -13,7 +13,7 @@
         </div>
         <div class="blocks">
             <div class="block-wrap" v-for="(block, i) in item.blocks" :key="block.id" :style="blockStyles[i]">
-                <Block :item="block"/>
+                <Block :item="block" :layer="item"/>
             </div>
         </div>
         <div class="description">
@@ -69,7 +69,13 @@
             },
         },
         methods: {
-            ...mapMutations(['SET_CURRENT_LAYER', 'DEL_LAYER', 'UPD_LAYER']),
+            ...mapMutations(['SET_CURRENT_LAYER', 'DEL_LAYER', 'UPD_LAYER', 'SET_CURRENT_BLOCK', 'SET_ADD_BLOCK_MODE', 'SET_ADD_LAYER_MODE']),
+            setCurrent() {
+                this.SET_CURRENT_BLOCK()
+                this.SET_ADD_BLOCK_MODE(0)
+                this.SET_CURRENT_LAYER(this.item)
+                this.SET_ADD_LAYER_MODE(1)
+            },
             del() {
                 this.DEL_LAYER({ diagramId: this.current.id, layerId: this.item.id })
                 this.isRenaming = false
@@ -95,7 +101,7 @@
 	.blocks{
 		position: relative;
         width: 100%;
-        height: 50px;
+        height: 60px;
 	}
 	.layer{
 		cursor: pointer;

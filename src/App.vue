@@ -46,3 +46,16 @@ export default Vue.extend({
     },
 });
 </script>
+
+<style lang="scss">
+    .left{
+        float: left;
+    }
+    .right{
+        float: right;
+    }
+    .overflow-hidden{
+        overflow: hidden;
+    }
+
+</style>

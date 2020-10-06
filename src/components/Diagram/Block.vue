@@ -1,8 +1,8 @@
 <template>
-    <div class="block diagram-item" :style="style" :class="{ active: item.id === currentBlock.id }" @click="SET_CURRENT_BLOCK(item)">
+    <div class="block diagram-item" :style="style" :class="{ active: item.id === currentBlock.id }" @click.stop="setCurrent">
         <v-btn  class="feed left" v-if="!isRenaming" text>
             <span>{{item.name || "_"}}</span>
-            <span class="rename_button pointer" icon @click.stop="isRenaming = true">🖉</span>
+            <span class="rename_button pointer" icon @click.stop="(isRenaming = true, name = item.name)">🖉</span>
         </v-btn>
         <div v-else>
             <v-layout row align-center>
@@ -20,6 +20,7 @@
     import { Vue } from 'vue-property-decorator'
     import { PropType } from 'vue';
     import BlockInterface from '../../types/Block';
+    import LayerInterface from '../../types/Layer';
 
     export default Vue.extend({
         props: {
@@ -27,13 +28,13 @@
                 type: Object as PropType<BlockInterface>,
                 required: true,
             },
+            layer: {
+                type: Object as PropType<LayerInterface>,
+                required: true,
+            },
         },
         data() {
             return {
-                style: {
-                    background: this.item.color,
-                    color: getContrastYIQ(this.item.color) > .5 ? 'black' : 'white',
-                },
                 isRenaming: false,
                 name: this.item.name,
             }
@@ -43,9 +44,22 @@
         },
 		computed: {
             ...mapGetters(['currentBlock', 'currentLayer', 'current']),
+            style(): object {
+                return {
+                    background: this.item.color,
+                    color: getContrastYIQ(this.item.color) > .5 ? 'black' : 'white',
+                    opacity: this.item.intensity / 100,
+                }
+            },
         },
         methods: {
-            ...mapMutations(['SET_CURRENT_BLOCK', 'DEL_BLOCK', 'UPD_BLOCK']),
+            ...mapMutations(['SET_CURRENT_BLOCK', 'DEL_BLOCK', 'UPD_BLOCK', 'SET_ADD_BLOCK_MODE', 'SET_CURRENT_LAYER', 'SET_ADD_LAYER_MODE']),
+            setCurrent() {
+                this.SET_CURRENT_LAYER(this.layer)
+                this.SET_CURRENT_BLOCK(this.item)
+                this.SET_ADD_BLOCK_MODE(1)
+                this.SET_ADD_LAYER_MODE(1)
+            },
             getContrastYIQ,
             del() {
                 this.DEL_BLOCK({ diagramId: this.current.id, layerId: this.currentLayer.id, blockId: this.item.id })
@@ -69,6 +83,9 @@
         cursor: pointer;
         width: 100%;
         text-align: center;
+        border-radius: 5px;
+        border: transparent 4px solid;
+        height: 60px;
         &.active {
             border: gray 4px solid
         }

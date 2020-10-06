@@ -19,4 +19,14 @@ export const dates = {
     month: 30 * 24 * 60 * 60 * 1000,
     year: 365 * 24 * 60 * 60 * 1000,
 }
+
+export function formatDate(date) {
+    var mm = date.getMonth() + 1; // getMonth() is zero-based
+    var dd = date.getDate();
+  
+    return [date.getFullYear(),
+            (mm>9 ? '' : '0') + mm,
+            (dd>9 ? '' : '0') + dd
+           ].join('-');
+  }
 /* eslint-enable */

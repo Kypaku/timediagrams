@@ -1,9 +1,17 @@
 <template>
     <div class="time-scale" @wheel="scale" @mousedown="dragToScrollStart" @mouseup="dragToScrollEnd" @mousemove="dragToScroll">
+        <div class="switches">
+            <v-btn-toggle tile color="deep-purple accent-3" class="right" group>
+                <v-btn @click="setScale(new Date(+new Date() + dates.day))">DAY</v-btn>
+                <v-btn @click="setScale(new Date(+new Date() + dates.week))">WEEK</v-btn>
+                <v-btn @click="setScale(new Date(+new Date() + dates.month))">MONTH</v-btn>
+                <v-btn @click="setScale(new Date(+new Date() + dates.year))">YEAR</v-btn>
+            </v-btn-toggle>
+        </div>
         <div class="scale-line" :class="{drag: isDrag}" ref="scale_line">
-            |{{value.start}}
+            <!-- |{{value.start}}
             |{{value.end}}
-            |{{currentScale}}
+            |{{currentScale}} -->
             <div class="scalemark" v-for="(scalemark, i) in scalemarks" :key="i" :class="'scalemark-' + scalemark.scale" :style="scalemark.style">
                 <div class="scalemark-body"></div>
                 <div class="scalemark-label">
@@ -66,6 +74,7 @@
                 isDrag: false,
                 startDragPos: 0,
                 isCreated: false,
+                dates,
             }
         },
         computed: {
@@ -164,29 +173,33 @@
                     const dxTime = dxRel * (+this.endScale - +this.startScale)
                     const start = new Date(+this.startScale + dxTime)
                     const end = new Date(+this.endScale + dxTime)
-                    this.startScale = start
-                    this.endScale = end
-                    if (this.value) {
-                        this.$emit('input', { start, end })
-                    }
+                    this.setScale(start, end)
                     this.startDragPos = e.clientX
                 }
 			},
 			scale(e: Event) {
                 e.preventDefault()
                 const diff = +this.endScale - +this.startScale
-                const delta = (e as any).deltaY
+                const delta = -(e as any).deltaY
                 if ((diff > MIN_SCALE || delta < 0) && (diff < MAX_SCALE || delta > 0)) {
                     const k = Math.floor(diff * (delta / 2000))
                     const start = new Date(+this.startScale + k)
                     const end = new Date(+this.endScale - k)
+                    this.setScale(start, end)
+                }
+            },
+            setScale(start: Date, end: Date) {
+                if (end) {
                     this.startScale = start
                     this.endScale = end
-                    if (this.value) {
-                        this.$emit('input', { start, end })
-                    }
+                } else {
+                    this.startScale = new Date()
+                    this.endScale = start
                 }
-			},
+                if (this.value) {
+                    this.$emit('input', { start, end })
+                }
+            },
         },
         created() {
             if (!this.value && (!this.start || !this.end)) {
@@ -206,9 +219,13 @@
 <style lang="scss" scoped>
 	.time-scale{
 		position: relative;
+        .switches{
+            overflow: hidden;
+        }
         .scale-line{
             cursor: grab;
             height: 100px;
+            border-top: 1px solid;
             .scalemark{
                 position: absolute;
                 .scalemark-body{
@@ -217,31 +234,31 @@
                 &.scalemark-1{
                     .scalemark-body{
                         width: 1px;
-                        height: 20px;
+                        height: 10px;
                     }
                 }
                 &.scalemark-2{
                     .scalemark-body{
                         width: 1px;
-                        height: 40px;
+                        height: 30px;
                     }
                 }
                 &.scalemark-3{
                     .scalemark-body{
                         width: 2px;
-                        height: 60px;
+                        height: 50px;
                     }
                 }
                 &.scalemark-4{
                     .scalemark-body{
                         width: 2px;
-                        height: 80px;
+                        height: 70px;
                     }
                 }
                 &.scalemark-5{
                     .scalemark-body{
                         width: 3px;
-                        height: 100px;
+                        height: 90px;
                     }
                 }
             }

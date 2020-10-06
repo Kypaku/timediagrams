@@ -1,6 +1,7 @@
 export default {
     /* settings */
-    theme: state => state.settings.theme,
+    addBlockMode: state => state.settings.addBlockMode,
+    addLayerMode: state => state.settings.addLayerMode,
 
     /* diagrams */
     diagrams: state => state.diagrams.diagrams,

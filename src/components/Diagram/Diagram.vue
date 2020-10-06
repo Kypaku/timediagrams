@@ -4,36 +4,32 @@
         <div class="scale mt-5">
             <Timescale v-model="timescale"/>
         </div>
-        <div class="diagram-body mt-7" v-if="current.id">
-            <Layer v-for="layer in current.layers" :key="layer.id" :item="layer" :time-interval="timescale"/>
-            <v-btn @click="saveFile">Save</v-btn>
+        <div class="diagram-body pt-7" v-if="current.id">
+            <div class="layer-wrap mt-3" v-for="(layer, i) in current.layers" :key="layer.id">
+                <h5>Layer #{{i + 1}}</h5>
+                <Layer :item="layer" :time-interval="timescale"/>
+            </div>
+            <v-row class="diagram-footer pt-3">
+                <v-col class="block-data" v-show="currentBlock.description && currentBlock.description.length">
+                    <h4>Block description: </h4>
+                    {{currentBlock.description}}
+                </v-col>
+                <v-col class="overflow-hidden">
+                    <v-btn @click="saveFile" class="right">Save</v-btn>
+                </v-col>
+            </v-row>
         </div>
-        <div class="block-data">
-            {{currentBlock.description}}
-        </div>
-        <v-row class="diagram-footer" v-if="current.id">
-            <v-col class="add-layer">
-                <AddLayer/>
-            </v-col>
-            <v-col class="add-block-wrap" v-if="currentLayer.id">
-                <AddBlock/>
-            </v-col>
-        </v-row>
     </div>
 </template>
 
 <script lang='ts'>
 	import { mapGetters, mapMutations } from 'vuex'
     import { Vue } from 'vue-property-decorator'
-	import AddBlock from './AddBlock.vue'
-	import Timescale from './Timescale.vue'
+	import Timescale from '../TimeScale/Timescale.vue'
     import Layer from './Layer.vue'
-	import AddLayer from './AddLayer.vue'
 
     export default Vue.extend({
         components: {
-            AddLayer,
-            AddBlock,
             Timescale,
             Layer,
         },
@@ -63,8 +59,15 @@
 </script>
 
 <style lang="scss" scoped>
+	.diagram-footer{
+		background: white;
+	}
+	.scale{
+		background: #f9f9f9;
+	}
 	.diagram-body{
 		overflow: hidden;
+        background: #f9f9f9;
 	}
 
 </style>
