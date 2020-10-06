@@ -57,5 +57,9 @@ export default Vue.extend({
     .overflow-hidden{
         overflow: hidden;
     }
+    .flex-center{
+        display: flex;
+        align-items: center;
+    }
 
 </style>

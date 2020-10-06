@@ -13,7 +13,7 @@
         </div>
         <div class="blocks">
             <div class="block-wrap" v-for="(block, i) in item.blocks" :key="block.id" :style="blockStyles[i]">
-                <Block :item="block" :layer="item"/>
+                <Block :item="block" :layer="item" :width="parseInt(blockStyles[i].width)"/>
             </div>
         </div>
         <div class="description">
@@ -87,6 +87,7 @@
                 this.UPD_LAYER({ diagramId: this.current.id, data: { id: this.item.id, name: this.name } })
                 this.isRenaming = false
             },
+            parseInt,
         },
         mounted() {
             this.isCreated = true
@@ -106,8 +107,10 @@
 	.layer{
 		cursor: pointer;
         padding: 10px;
+        flex-grow: 1;
+        overflow: hidden;
 	}
 	.active{
-        border: 2px solid darkgoldenrod;
+        border: 2px solid #1976d2;
 	}
 </style>

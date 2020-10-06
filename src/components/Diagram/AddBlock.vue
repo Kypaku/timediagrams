@@ -13,12 +13,12 @@
             max="100"
             label="Intensity"
         />
-        start
+        <div class="label">Time start/end:</div>
         <v-row>
             <v-col class="col-6"><v-time-picker v-model="timeStart" format="24hr" :allowed-hours="allowedHoursStart" :allowed-minutes="allowedMinutesStart"></v-time-picker></v-col>
             <v-col class="col-6"><v-time-picker v-model="timeEnd" format="24hr" :allowed-hours="allowedHoursEnd" :allowed-minutes="allowedMinutesEnd"></v-time-picker></v-col>
         </v-row>
-        end
+        <div class="label">Date interval:</div>
         <v-row>
             <v-col class="col-6">
                 <div class="error-label" v-show="dateIsWrong">Date interval shouldn't conflict with other blocks</div>

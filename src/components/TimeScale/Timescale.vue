@@ -197,7 +197,7 @@
                     this.endScale = start
                 }
                 if (this.value) {
-                    this.$emit('input', { start, end })
+                    this.$emit('input', { start: this.startScale, end: this.endScale })
                 }
             },
         },
@@ -225,11 +225,11 @@
         .scale-line{
             cursor: grab;
             height: 100px;
-            border-top: 1px solid;
+            border-top: 3px solid #1976d2;
             .scalemark{
                 position: absolute;
                 .scalemark-body{
-                    background: #333;
+                    background: #1976d2;
                 }
                 &.scalemark-1{
                     .scalemark-body{

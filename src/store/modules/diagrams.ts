@@ -42,11 +42,20 @@ export default {
             state.currentBlock = current || {}
         },
         ADD_DIAGRAM: (state: any, diagram: Diagram) => {
-            const defaultData = { name: 'NEW DIAGRAM', description: '', layers: [], id: uuid() } as any
-            for (const key in diagram) {
-                defaultData[key] = (diagram as any)[key]
-            }
-            state.diagrams.push(diagram || defaultData)
+            // const defaultData = { name: 'NEW DIAGRAM', description: '', layers: [], id: uuid() } as any
+            // for (const key in diagram) {
+            //     defaultData[key] = (diagram as any)[key]
+            // }
+            if (!diagram.layers) return
+            const newDiagram = cloneDeep(diagram)
+            newDiagram.id = uuid()
+            newDiagram.layers.forEach((layer: Layer) => {
+                layer.blocks.forEach((block: Block) => {
+                    block.start = new Date(block.start)
+                    block.end = new Date(block.end)
+                })
+            })
+            state.diagrams.push(newDiagram || defaultData)
             ls('diagrams', state.diagrams)
         },
         DEL_DIAGRAM: (state: any, diagramID: string) => {

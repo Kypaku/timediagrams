@@ -2,6 +2,7 @@
     <div class="main-page">
         <v-container>
             <Navigation :items="diagrams"/>
+            <h3 class="mt-4">Diagram:</h3>
             <Diagram/>
             <v-row class="footer" v-if="current.id">
                 <v-col class="add-layer">

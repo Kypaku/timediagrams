@@ -4,10 +4,13 @@
         <div class="scale mt-5">
             <Timescale v-model="timescale"/>
         </div>
-        <div class="diagram-body pt-7" v-if="current.id">
-            <div class="layer-wrap mt-3" v-for="(layer, i) in current.layers" :key="layer.id">
-                <h5>Layer #{{i + 1}}</h5>
-                <Layer :item="layer" :time-interval="timescale"/>
+        <div class="diagram-body" v-if="current.id">
+            <div class="layers pt-7">
+                <h3>Layers:</h3>
+                <div class="layer-wrap mt-3 flex-center" v-for="(layer, i) in current.layers" :key="layer.id">
+                    <h5 class="mr-2">#{{i + 1}}</h5>
+                    <Layer :item="layer" :time-interval="timescale"/>
+                </div>
             </div>
             <v-row class="diagram-footer pt-3">
                 <v-col class="block-data" v-show="currentBlock.description && currentBlock.description.length">
@@ -43,7 +46,7 @@
         },
         methods: {
             saveFile() {
-                const data = JSON.stringify({ text: this.text })
+                const data = JSON.stringify(this.current)
                 const blob = new Blob([data], { type: 'text/plain' })
                 const e = document.createEvent('MouseEvents')
                 const a = document.createElement('a');
@@ -59,15 +62,26 @@
 </script>
 
 <style lang="scss" scoped>
+	.layers{
+		background: #f9f9f9;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 0 5px;
+        .layer-wrap{
+            overflow: hidden;
+        }
+	}
 	.diagram-footer{
 		background: white;
 	}
 	.scale{
 		background: #f9f9f9;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding: 0 5px;
 	}
 	.diagram-body{
 		overflow: hidden;
-        background: #f9f9f9;
 	}
 
 </style>

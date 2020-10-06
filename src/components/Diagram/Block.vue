@@ -1,9 +1,9 @@
 <template>
-    <div class="block diagram-item" :style="style" :class="{ active: item.id === currentBlock.id }" @click.stop="setCurrent">
-        <v-btn  class="feed left" v-if="!isRenaming" text>
+    <div class="block diagram-item" :style="style" :class="{ active: item.id === currentBlock.id }" @click.stop="setCurrent" ref="block">
+        <div  class="" v-if="!isRenaming" text v-show="width > 100">
             <span>{{item.name || "_"}}</span>
             <span class="rename_button pointer" icon @click.stop="(isRenaming = true, name = item.name)">🖉</span>
-        </v-btn>
+        </div>
         <div v-else>
             <v-layout row align-center>
                 <v-text-field v-model="name" label="" required></v-text-field>
@@ -30,6 +30,10 @@
             },
             layer: {
                 type: Object as PropType<LayerInterface>,
+                required: true,
+            },
+            width: {
+                type: Number,
                 required: true,
             },
         },
