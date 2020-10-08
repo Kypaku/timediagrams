@@ -2,7 +2,7 @@
     <v-btn class="diagram-item" :class="{active: current.id === item.id}" @click="SET_CURRENT(item)">
         <v-btn  class="feed left" v-if="!isRenaming" text>
             <span>{{item.name || "_"}}</span>
-            <span class="rename_button pointer" icon @click.stop="isRenaming = true">🖉</span>
+            <span class="rename_button pointer" icon @click.stop="isRenaming = true"><v-icon size="14">edit</v-icon></span>
         </v-btn>
         <div v-else>
             <v-layout row align-center class="ml-2">

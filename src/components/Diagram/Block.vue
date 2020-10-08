@@ -2,7 +2,7 @@
     <div class="block diagram-item" :style="style" :class="{ active: item.id === currentBlock.id }" @click.stop="setCurrent" ref="block">
         <div  class="" v-if="!isRenaming" text v-show="width > 100">
             <span>{{item.name || "_"}}</span>
-            <span class="rename_button pointer" icon @click.stop="(isRenaming = true, name = item.name)">🖉</span>
+            <span class="rename_button pointer" icon @click.stop="(isRenaming = true, name = item.name)"><v-icon size="14">edit</v-icon></span>
         </div>
         <div v-else>
             <v-layout row align-center>

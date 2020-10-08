@@ -2,7 +2,7 @@
     <div class="layer" :class="{ active: item.id === currentLayer.id }" @click="setCurrent" ref="layer">
         <div class="label" v-if="!isRenaming">
             <span>{{item.name || "_"}}</span>
-            <span class="rename_button pointer" icon @click.stop="isRenaming = true">🖉</span>
+            <span class="rename_button pointer" icon @click.stop="isRenaming = true"><v-icon size="14">edit</v-icon></span>
         </div>
         <div v-else>
             <v-layout row align-center>
