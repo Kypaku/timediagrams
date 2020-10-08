@@ -74,7 +74,6 @@
     }
 	.helper{
 		font-size: 22px;
-        text-decoration: underline;
-        color: #1976d2;
+        color: #333;
 	}
 </style>

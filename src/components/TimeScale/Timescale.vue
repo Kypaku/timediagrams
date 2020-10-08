@@ -1,5 +1,11 @@
 <template>
-    <div class="time-scale" @wheel="scale" @mousedown="dragToScrollStart" @mouseup="dragToScrollEnd" @mousemove="dragToScroll">
+    <div class="time-scale"
+    @wheel="scale"
+    @mousedown="dragToScrollStart"
+    @mouseup="dragToScrollEnd"
+    @mousemove="dragToScroll"
+    ref="timescale"
+    >
         <div class="switches">
             <v-btn-toggle tile color="deep-purple accent-3" class="right" group>
                 <v-btn @click="setScale(new Date(+new Date() + dates.day))">DAY</v-btn>
@@ -23,6 +29,7 @@
 </template>
 
 <script lang='ts'>
+    import pinch from 'touch-pinch';
     import { Vue } from 'vue-property-decorator'
     import { PropType } from 'vue';
     import { dates } from '@/helpers';
@@ -46,6 +53,29 @@
             left: string;
         };
         label: string;
+    }
+
+    const touchMove = (el: any, cb: Function) => {
+        let oldX = 0;
+
+        el.addEventListener('touchstart', (e: TouchEvent) => {
+            oldX = e.targetTouches[0].clientX;
+        }, false)
+
+        el.addEventListener('touchcancel', (e: TouchEvent) => {
+            oldX = e.targetTouches[0].clientX;
+        }, false)
+        /* eslint-disable */
+        el.addEventListener('touchmove', (e: TouchEvent) => {
+            if (e.touches.length === 1) {
+                const touch = e.touches[0];
+                cb(touch.clientX - oldX)
+                oldX = touch.clientX;
+                e.preventDefault();
+                return false;
+            }
+        }, { passive: false });
+        /* eslint-enable */
     }
 
     export default Vue.extend({
@@ -80,9 +110,10 @@
         computed: {
             currentScale(): Scales {
                 let i = 0
+                const numScales = Math.ceil(this.scaleWidth / 50)
                 for (const date of Object.values(dates).slice(2)) {
                     i++
-                    if ((+this.endScale - +this.startScale) / date < 30) {
+                    if ((+this.endScale - +this.startScale) / date < numScales) {
                         return i - 1
                     }
                 }
@@ -206,6 +237,23 @@
         mounted() {
             this.$nextTick(() => {
                 this.scaleWidth = this.$refs.scale_line && (this.$refs.scale_line as any).clientWidth
+                pinch(this.$refs.timescale).on('change', (dist: number, prev: number) => {
+                    const diff = +this.endScale - +this.startScale
+                    const delta = dist - prev
+                    if ((diff > MIN_SCALE || delta < 0) && (diff < MAX_SCALE || delta > 0)) {
+                        const k = Math.floor(diff * (delta / 200))
+                        const start = new Date(+this.startScale + k)
+                        const end = new Date(+this.endScale - k)
+                        this.setScale(start, end)
+                    }
+                })
+                touchMove(this.$refs.timescale as Element, (dx: number) => {
+                    const dxRel = -(dx / this.scaleWidth)
+                    const dxTime = dxRel * (+this.endScale - +this.startScale)
+                    const start = new Date(+this.startScale + dxTime)
+                    const end = new Date(+this.endScale + dxTime)
+                    this.setScale(start, end)
+                })
             })
         },
     })

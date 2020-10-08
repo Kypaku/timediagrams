@@ -20,6 +20,10 @@
             </p>
             <p>Andrey Kypaku</p>
             <p>kypaku@mail.ru</p>
+            <div class="flex-center">
+                <p class="made pr-2">Made with</p>
+                <img src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-atom.svg" class="vuetify"/>
+            </div>
         </v-container>
     </div>
 </template>
@@ -33,6 +37,12 @@
 </script>
 
 <style lang="scss" scoped>
+	.made{
+		margin: 0 !important;
+	}
+	.vuetify{
+		width: 50px;
+	}
 	.about{
 		color: #333;
 	}

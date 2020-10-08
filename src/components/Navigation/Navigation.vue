@@ -1,7 +1,7 @@
 <template>
     <div class="navigation d-flex">
         <div class="diagrams flex-center">
-            <div class="helper" v-show="!items.length">Create new digram: </div>
+            <div class="helper" v-show="!items.length">Create new diagram: </div>
             <DiagramItem v-for="item in items" :key="item.id" :item="item"/>
         </div>
         <v-dialog
@@ -9,7 +9,7 @@
             max-width="290"
         >
             <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" icon class="add-button">+</v-btn>
+                <v-btn v-bind="attrs" v-on="on" icon class="add-button ml-2">+</v-btn>
             </template>
             <AddDiagram @close="dialog = false"/>
         </v-dialog>
@@ -51,6 +51,7 @@
 	.add-button{
 		font-size: 26px;
         font-weight: 700;
+        background: #1976d21f;
 	}
 
 </style>

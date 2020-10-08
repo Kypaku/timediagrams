@@ -31,7 +31,7 @@ export default {
         SET_CURRENT: (state: any, current: Diagram) => {
             state.current = current
             ls('current', current)
-            if (current.layers && current.layers[0]) {
+            if (current && current.layers && current.layers[0]) {
                 state.currentLayer = current.layers[0]
             }
         },
