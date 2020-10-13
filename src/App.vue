@@ -31,7 +31,7 @@
             ...mapGetters(['diagrams']),
         },
         methods: {
-            ...mapMutations(['SET_DIAGRAMS', 'SET_CURRENT']),
+            ...mapMutations(['SET_DIAGRAMS', 'SET_CURRENT', 'SET_OLD_USER']),
         },
         created() {
             const diagramsLs: any = ls('diagrams')
@@ -39,10 +39,11 @@
                 this.SET_DIAGRAMS(diagramsLs)
                 const currentLs: any = ls('current')
                 if (currentLs !== 'undefined') {
-                    const current = currentLs ? this.diagrams.find((el: Diagram) => el.id === currentLs.id) : this.diagrams[0]
+                    const current = currentLs ? this.diagrams.find((el: Diagram) => el.id === currentLs.id) : (this.diagrams[0] || {})
                     this.SET_CURRENT(current)
                 }
             }
+            this.SET_OLD_USER(ls('oldUser'))
         },
     });
 </script>

@@ -6,7 +6,7 @@
         </div>
         <v-dialog
             v-model="dialog"
-            max-width="290"
+            max-width="350"
         >
             <template v-slot:activator="{ on, attrs }">
                 <v-btn v-bind="attrs" v-on="on" icon class="add-button ml-2">+</v-btn>

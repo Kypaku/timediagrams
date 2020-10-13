@@ -6,8 +6,8 @@
         </div>
         <div class="diagram-body" v-if="current.id">
             <div class="layers pt-7 pb-3">
-                <h3>Layers:</h3>
-                <div class="helper" v-show="!current.layers.length">Add new layer below ↓</div>
+                <h3 v-show="current.layers.length">Layers:</h3>
+                <div class="helper" v-show="!current.layers.length">Add new layer below <v-icon size="20">arrow_downward</v-icon></div>
                 <div class="layer-wrap mt-3 flex-center" v-for="(layer, i) in current.layers" :key="layer.id">
                     <h5 class="mr-2">#{{i + 1}}</h5>
                     <Layer :item="layer" :time-interval="timescale"/>
@@ -63,6 +63,12 @@
 </script>
 
 <style lang="scss" scoped>
+	.helper{
+        font-size: 18px;
+        color: #333;
+        width: 100%;
+        text-align: center;
+	}
 	.layers{
 		background: #f9f9f9;
         border-bottom-left-radius: 5px;

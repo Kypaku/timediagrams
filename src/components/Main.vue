@@ -15,6 +15,7 @@
                 </v-col>
             </v-row>
         </v-container>
+        <Welcome/>
     </div>
 </template>
 
@@ -25,9 +26,11 @@
     import Diagram from './Diagram/Diagram.vue'
 	import AddBlock from './Diagram/AddBlock.vue'
 	import AddLayer from './Diagram/AddLayer.vue'
+	import Welcome from './Misc/Welcome.vue'
 
     export default Vue.extend({
         components: {
+            Welcome,
             Navigation,
             Diagram,
             AddLayer,

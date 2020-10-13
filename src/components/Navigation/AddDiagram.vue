@@ -5,7 +5,7 @@
         </v-card-title>
         <v-card-text>
             <v-text-field v-model="name" label="Name"/>
-            <v-textarea v-model="description" label="Description"/>
+            <v-textarea v-model="description" label="Description" rows="4"/>
             <h3>Or load from file:</h3>
             <input type="file" class="mt-2" @change="loadTextFromFile">
         </v-card-text>

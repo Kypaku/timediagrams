@@ -7,8 +7,13 @@ export default {
         // theme: ls('theme'),
         addBlockMode: 0 as formModes,
         addLayerMode: 0 as formModes,
+        oldUser: false,
     },
     mutations: {
+		SET_OLD_USER: (state: any, oldUser: boolean) => {
+            state.oldUser = oldUser
+            ls('oldUser', oldUser)
+        },
 		SET_ADD_LAYER_MODE: (state: any, addLayerMode: formModes) => {
             state.addLayerMode = addLayerMode
         },
